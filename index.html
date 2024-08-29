@@ -1,0 +1,587 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifada La Rifa</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #008000; /* Verde */
+            --secondary-color: #FFD700; /* Dorado */
+            --accent-color: #32CD32; /* Lima */
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --highlight-color: #FFD700; /* Dorado */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-bottom: 2px solid var(--secondary-color);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1em;
+            margin-top: 5px;
+            color: var(--white);
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--white);
+            font-weight: 700;
+            margin: 20px 0;
+            background-color: var(--primary-color);
+            padding: 10px 10px;
+            border-radius: 50px;
+            width: fit-content;
+            margin: 20px auto;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-item {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: var(--white);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-item img {
+            width: 150px;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .product-item h3 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: var(--text-color);
+        }
+
+        .product-item p {
+            margin: 10px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        .raffle-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .raffle-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 16px var(--shadow-color);
+        }
+
+        #cart {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 1000;
+            width: 350px;
+            max-width: 90%;
+            display: none;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        #cart h3 {
+            margin-bottom: 20px;
+        }
+
+        #cart-items p {
+            margin-bottom: 15px;
+            color: var(--text-color); /* Texto negro para los artículos del carrito */
+        }
+
+        #cart-total {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--text-color);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 2px solid var(--secondary-color);
+            box-shadow: 0 -4px 8px var(--shadow-color);
+        }
+
+        #cart-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            z-index: 1001;
+        }
+
+        #cart-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1002;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: black;
+        }
+
+        .modal-body p {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quantity-btn {
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 0 5px;
+        }
+
+        .quantity-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        /* Estilos de botones */
+        .edit-btn, #refresh-btn, .mercadopago-btn {
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            display: inline-block;
+        }
+
+        .edit-btn:hover, #refresh-btn:hover, .mercadopago-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            transform: translateY(-3px);
+        }
+
+        #paypal-form img {
+            width: 100%;
+            max-width: 200px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header img {
+                width: 40px;
+                height: 40px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .choose-btn {
+                font-size: 0.9em;
+            }
+
+            #cart-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2em;
+            }
+
+            .product-item img {
+                width: 100px;
+                height: 70px;
+            }
+
+            .product-item h3 {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header img {
+                width: 30px;
+                height: 30px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .choose-btn {
+                padding: 8px 16px;
+                font-size: 0.8em;
+            }
+
+            #cart {
+                bottom: 5px;
+                right: 5px;
+                width: 90%;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .product-item img {
+                width: 80px;
+                height: 50px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            border: 3px solid var (--background-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://img.icons8.com/ios/50/ffffff/gift.png" alt="Logo">
+        <h1>🎁 Rifada La Rifa</h1>
+        <p>¡Obtén tu oportunidad de ganar premios increíbles!</p>
+    </header>
+    <main>
+        <div id="cart">
+            <h3>🛒 Tu Carrito</h3>
+            <div id="cart-items"></div>
+            <p id="cart-total">Total: $0.00</p>
+            <p>Pagar con PayPal:</p>
+            <div id="paypal-form"></div>
+            <p>Pagar con Mercado Pago:</p>
+            <a href="https://link.mercadopago.com.mx/segurodeviajes" class="mercadopago-btn" target="_blank">Pagar con Mercado Pago</a><br>
+           <p> <button id="refresh-btn" onclick="clearCart()">Borrar Carrito</button>
+        </div>
+        <button id="cart-btn" onclick="toggleCart()">🛒</button>
+        
+        <h2>🎉 Rifas Disponibles</h2>
+        <div id="product-grid" class="product-grid"></div>
+    </main>
+    <footer>
+        <p>¡Gracias por participar en nuestras rifas!</p>
+    </footer>
+
+    <div id="raffle-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleRaffleModal()">&times;</span>
+            <div id="raffle-modal-content"></div>
+            <button class="raffle-btn" onclick="addProductToCart()">Comprar Boleto</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = [
+                { name: "Tesla Model S", img: "https://i.imgur.com/wMA9jpv.png", price: 50000, description: "¡Gana un Tesla Model S nuevo!", date: getFormattedDate() },
+                { name: "Yamaha YZF-R6", img: "https://i.imgur.com/KzgQftG.png", price: 3000, description: "¡Una oportunidad de ganar una Yamaha YZF-R6!", date: getFormattedDate() },
+                { name: "Reloj Rolex", img: "https://i.imgur.com/LITdzi4.png", price: 2500, description: "¡Gana un lujoso reloj Rolex!", date: getFormattedDate() },
+                { name: "iPhone 14 Pro", img: "https://i.imgur.com/SVTLEMe.png", price: 2000, description: "¡Obtén el nuevo iPhone 14 Pro!", date: getFormattedDate() },
+                { name: "MacBook Pro", img: "https://i.imgur.com/M9qHwEe.png", price: 4000, description: "¡Gana una poderosa MacBook Pro!", date: getFormattedDate() },
+                { name: "Bolso Louis Vuitton", img: "https://i.imgur.com/FYmyIJV.png", price: 3500, description: "¡Gana un lujoso bolso Louis Vuitton!", date: getFormattedDate() },
+                { name: "TV Samsung 65\" QLED", img: "https://i.imgur.com/bMmLSbQ.png", price: 3000, description: "¡Gana un TV Samsung QLED de 65\"!", date: getFormattedDate() },
+                { name: "Audífonos Bose", img: "https://i.imgur.com/1lpq6Ik.png", price: 1500, description: "¡Obtén audífonos Bose premium!", date: getFormattedDate() },
+                { name: "Zapatillas Gucci", img: "https://i.imgur.com/bcXqBd8.png", price: 2000, description: "¡Gana un par de zapatillas Gucci!", date: getFormattedDate() },
+                { name: "Consola PS5", img: "https://i.imgur.com/5ZmXlJQ.png", price: 2500, description: "¡Gana la última consola PS5!", date: getFormattedDate() }
+            ];
+
+            const cart = [];
+            let total = 0;
+            let selectedProduct = null;
+
+            function getFormattedDate() {
+                const now = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return now.toLocaleDateString('es-ES', options);
+            }
+
+            function createProductElement(product, index) {
+                const productItem = document.createElement('div');
+                productItem.classList.add('product-item');
+                productItem.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description} - Semana del: ${product.date}</p>
+                    <p>Precio: $${product.price.toFixed(2)} por boleto</p>
+                    <button class="raffle-btn" onclick="showRaffleModal(${index})">Comprar Boleto</button>
+                `;
+                return productItem;
+            }
+
+            function displayProducts(productsToDisplay) {
+                const productGrid = document.getElementById('product-grid');
+                productGrid.innerHTML = '';
+                productsToDisplay.forEach((product, index) => {
+                    productGrid.appendChild(createProductElement(product, index));
+                });
+            }
+
+            function generateTicketNumber() {
+                return Math.floor(100000 + Math.random() * 900000).toString();
+            }
+
+            window.showRaffleModal = function(index) {
+                selectedProduct = { ...products[index] };
+                const modalContent = document.getElementById('raffle-modal-content');
+                modalContent.innerHTML = `
+                    <h3>${selectedProduct.name}</h3>
+                    <img src="${selectedProduct.img}" alt="${selectedProduct.name}" style="width: 100%; height: auto; border-radius: 12px;">
+                    <p>${selectedProduct.description} - Semana: ${selectedProduct.date}</p>
+                    <p>Precio: $${selectedProduct.price.toFixed(2)} por boleto</p>
+                    <label for="ticket-quantity">Cantidad:</label>
+                    <select id="ticket-quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                `;
+                toggleRaffleModal();
+            };
+
+            window.addProductToCart = function() {
+                const quantity = parseInt(document.getElementById('ticket-quantity').value);
+                const existingProduct = cart.find(item => item.name === selectedProduct.name);
+
+                if (existingProduct) {
+                    existingProduct.quantity += quantity;
+                    existingProduct.tickets.push(...Array(quantity).fill().map(() => generateTicketNumber()));
+                } else {
+                    const newProduct = { 
+                        name: selectedProduct.name, 
+                        price: selectedProduct.price, 
+                        quantity, 
+                        tickets: Array(quantity).fill().map(() => generateTicketNumber())
+                    };
+                    cart.push(newProduct);
+                }
+
+                updateCart();
+                toggleRaffleModal();
+                alert(`Se han añadido ${quantity} boleto(s) para ${selectedProduct.name} al carrito.`);
+            };
+
+            function updateCart() {
+                const cartItemsSection = document.getElementById('cart-items');
+                const cartTotal = document.getElementById('cart-total');
+
+                cartItemsSection.innerHTML = '';
+                total = 0;
+
+                cart.forEach((item, index) => {
+                    cartItemsSection.innerHTML += `
+                        <p>${item.name} - $${item.price} x ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</p>
+                        <ul>
+                            ${item.tickets.map(ticket => `<li>Número de boleto: ${ticket}</li>`).join('')}
+                        </ul>
+                    `;
+                    total += item.price * item.quantity;
+                });
+
+                cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+                updatePayPalForm();
+            }
+
+            window.clearCart = function() {
+                cart.length = 0;
+                updateCart();
+            };
+
+            function updatePayPalForm() {
+                const paypalForm = document.getElementById('paypal-form');
+                paypalForm.innerHTML = `
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                        <input type="hidden" name="cmd" value="_xclick" />
+                        <input type="hidden" name="business" value="tu-cuenta-paypal@example.com" />
+                        <input type="hidden" name="currency_code" value="USD" />
+                        <input type="hidden" name="amount" value="${total.toFixed(2)}" />
+                        <input type="hidden" name="item_name" value="${cart.map(item => `${item.name} (${item.quantity})`).join(', ')}" />
+                        <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/silver-pill-paypal-44px.png" border="0" name="submit" title="Pagar con PayPal" alt="PayPal - La forma más segura y fácil de pagar en línea!" />
+                    </form>
+                `;
+            }
+
+            window.toggleCart = function() {
+                const cart = document.getElementById('cart');
+                cart.style.display = cart.style.display === 'none' || cart.style.display === '' ? 'block' : 'none';
+            };
+
+            function toggleRaffleModal() {
+                const modal = document.getElementById('raffle-modal');
+                modal.style.display = modal.style.display === 'none' || modal.style.display === '' ? 'block' : 'none';
+            }
+
+            window.onclick = function(event) {
+                const modal = document.getElementById('raffle-modal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+            displayProducts(products);
+        });
+    </script>
+</body>
+</html>
